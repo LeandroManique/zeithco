@@ -184,9 +184,9 @@ const Navbar = ({ openCalendly }: { openCalendly: () => void }) => (
       <div className="hidden md:flex gap-10 text-base font-medium text-gray-400">
         <a href="#services" className="hover:text-white hover:underline decoration-zeith-metal underline-offset-8 transition-all">Serviços</a>
         <a href="/como-trabalhamos" className="hover:text-white hover:underline decoration-zeith-metal underline-offset-8 transition-all">Como Trabalhamos</a>
-        <button onClick={openCalendly} className="hover:text-white hover:underline decoration-zeith-metal underline-offset-8 transition-all text-left">
+        <a href="https://calendly.com/leandro-zeithco/30min" target="_blank" rel="noopener noreferrer" className="hover:text-white hover:underline decoration-zeith-metal underline-offset-8 transition-all">
           Contato
-        </button>
+        </a>
       </div>
       <div className="hidden md:block">
         <Button variant="outline" className="!px-6 !py-2 !text-xs" onClick={openCalendly}>
@@ -493,31 +493,23 @@ const HowWeWorkPage = ({ openCalendly }: { openCalendly: () => void }) => {
 const App: React.FC = () => {
   const openCalendly = useCalendlyWidget();
   const [selectedService, setSelectedService] = useState<Service | null>(null);
-  const [isPreModalOpen, setIsPreModalOpen] = useState(false);
   const modalContent = selectedService ? SERVICE_MODAL_CONTENT[selectedService.id] : null;
   const isHowWeWorkPage = typeof window !== 'undefined' && window.location.pathname.toLowerCase().includes('como-trabalhamos');
 
-  const handleOpenPreModal = () => setIsPreModalOpen(true);
-  const handleClosePreModal = () => setIsPreModalOpen(false);
-  const handleConfirmPreModal = () => {
-    setIsPreModalOpen(false);
-    openCalendly();
-  };
-
   if (isHowWeWorkPage) {
-    return <HowWeWorkPage openCalendly={handleOpenPreModal} />;
+    return <HowWeWorkPage openCalendly={openCalendly} />;
   }
 
   return (
     <div className="bg-black min-h-screen text-white font-sans selection:bg-zeith-metal selection:text-black">
-      <Navbar openCalendly={handleOpenPreModal} />
+      <Navbar openCalendly={openCalendly} />
       <main>
-        <Hero openCalendly={handleOpenPreModal} />
+        <Hero openCalendly={openCalendly} />
         <About />
         <Services openModal={setSelectedService} />
         <Methodology />
         <TargetAudience />
-        <Contact openCalendly={handleOpenPreModal} />
+        <Contact openCalendly={openCalendly} />
       </main>
       <Footer />
       
@@ -569,7 +561,7 @@ const App: React.FC = () => {
             <div className="pt-2">
               <Button fullWidth onClick={() => {
                 setSelectedService(null);
-                setIsPreModalOpen(true);
+                openCalendly();
               }}>
                 {modalContent.ctaLabel}
               </Button>
@@ -589,59 +581,14 @@ const App: React.FC = () => {
             <div className="pt-2">
               <Button fullWidth onClick={() => {
                 setSelectedService(null);
-                setIsPreModalOpen(true);
+                openCalendly();
               }}>
                 Solicitar Proposta
               </Button>
             </div>
           </div>
-      )}
+        )}
       </Modal>
-
-      {isPreModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-          <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" onClick={handleClosePreModal} />
-          <div className="relative z-10 w-full max-w-xl bg-zeith-gray border border-white/10 p-8 space-y-6 shadow-2xl">
-            <div className="flex justify-between items-start gap-6">
-              <div className="space-y-3">
-                <p className="text-sm uppercase tracking-[0.3em] text-zeith-metal">Diagnóstico Estratégico · 30 min</p>
-                <h3 className="text-2xl md:text-3xl font-bold text-white leading-tight">
-                  Leia o negócio antes de executar.
-                </h3>
-                <p className="text-gray-300 text-base md:text-lg leading-relaxed">
-                  Em 30 minutos, alinhamos contexto, prioridades e a rota mais curta. É o filtro que evita desperdício e acelera decisões com critério.
-                </p>
-              </div>
-              <button
-                onClick={handleClosePreModal}
-                className="text-gray-500 hover:text-white transition-colors"
-                aria-label="Fechar"
-              >
-                <X size={20} />
-              </button>
-            </div>
-            <div className="grid md:grid-cols-3 gap-4 text-sm text-gray-200">
-              {[
-                'Leitura do cenário (nicho, oferta, funil).',
-                'Priorização das alavancas de crescimento.',
-                'Plano inicial e próximos passos claros.'
-              ].map((item, idx) => (
-                <div key={idx} className="border border-white/10 bg-black/40 p-3 leading-relaxed">
-                  {item}
-                </div>
-              ))}
-            </div>
-            <div className="flex flex-col md:flex-row gap-3">
-              <Button fullWidth className="!py-4" onClick={handleConfirmPreModal}>
-                Acessar Agenda Estratégica
-              </Button>
-              <Button fullWidth variant="outline" className="!py-4" onClick={handleClosePreModal}>
-                Fechar
-              </Button>
-            </div>
-          </div>
-        </div>
-      )}
 
       <GeminiChat />
     </div>
