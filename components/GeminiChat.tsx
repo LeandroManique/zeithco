@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+﻿import React, { useState, useRef, useEffect } from 'react';
 import { MessageSquare, X, Send, Cpu } from 'lucide-react';
 import { sendMessageToGemini } from '../services/geminiService';
 import { ChatMessage } from '../types';
@@ -6,7 +6,7 @@ import { ChatMessage } from '../types';
 const GeminiChat: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<ChatMessage[]>([
-    { role: 'model', text: 'ZEITH AI: Online. Como posso acelerar seu resultado?', timestamp: new Date() }
+    { role: 'model', text: 'Olá. Sou o Otto, o assistente IA da ZEITH.', timestamp: new Date() }
   ]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -99,7 +99,7 @@ const GeminiChat: React.FC = () => {
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={handleKeyPress}
-              placeholder="Pergunte sobre os serviços..."
+              placeholder="Pergunte sobre estratégia, IA ou agenda."
               className="flex-1 bg-transparent border-none outline-none text-white text-xs placeholder-gray-600 focus:ring-0"
               autoFocus
             />
@@ -118,3 +118,5 @@ const GeminiChat: React.FC = () => {
 };
 
 export default GeminiChat;
+
+
