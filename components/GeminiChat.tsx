@@ -5,7 +5,9 @@ import { ChatMessage } from '../types';
 
 const GeminiChat: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [messages, setMessages] = useState<ChatMessage[]>([]);
+  const [messages, setMessages] = useState<ChatMessage[]>([
+    { role: 'model', text: 'Olá. Sou o Otto, o assistente IA da ZEITH.', timestamp: new Date() }
+  ]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -38,9 +40,7 @@ const GeminiChat: React.FC = () => {
     const aiMsg: ChatMessage = { role: 'model', text: responseText, timestamp: new Date() };
     setMessages(prev => {
       const lastModel = [...prev].reverse().find(m => m.role === 'model');
-      if (lastModel && lastModel.text === aiMsg.text) {
-        return prev;
-      }
+      if (lastModel && lastModel.text === aiMsg.text) return prev;
       return [...prev, aiMsg];
     });
     setIsLoading(false);
