@@ -190,7 +190,7 @@ const Navbar = ({ openCalendly }: { openCalendly: () => void }) => (
       </div>
       <div className="hidden md:block">
         <Button variant="outline" className="!px-6 !py-2 !text-xs" onClick={openCalendly}>
-          Falar Agora
+          Agendar
         </Button>
       </div>
     </div>
