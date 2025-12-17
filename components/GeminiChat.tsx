@@ -1,5 +1,5 @@
-﻿import React, { useState, useRef, useEffect } from 'react';
-import { MessageSquare, X, Send, Cpu } from 'lucide-react';
+import React, { useState, useRef, useEffect } from 'react';
+import { X, Send, Cpu } from 'lucide-react';
 import { sendMessageToGemini } from '../services/geminiService';
 import { ChatMessage } from '../types';
 
