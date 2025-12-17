@@ -36,14 +36,20 @@ const GeminiChat: React.FC = () => {
     setInput('');
     setIsLoading(true);
 
-    const responseText = await sendMessageToGemini(input);
-    const aiMsg: ChatMessage = { role: 'model', text: responseText, timestamp: new Date() };
-    setMessages(prev => {
-      const lastModel = [...prev].reverse().find(m => m.role === 'model');
-      if (lastModel && lastModel.text === aiMsg.text) return prev;
-      return [...prev, aiMsg];
-    });
-    setIsLoading(false);
+    try {
+      const responseText = await sendMessageToGemini(messages, input);
+      const aiMsg: ChatMessage = { role: 'model', text: responseText, timestamp: new Date() };
+      setMessages(prev => {
+        const lastModel = [...prev].reverse().find(m => m.role === 'model');
+        if (lastModel && lastModel.text === aiMsg.text) return prev;
+        return [...prev, aiMsg];
+      });
+    } catch (err) {
+      console.error(err);
+      setMessages(prev => [...prev, { role: 'model', text: 'Erro de comunicação com a inteligência.', timestamp: new Date() }]);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
