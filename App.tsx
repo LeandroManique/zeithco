@@ -493,23 +493,31 @@ const HowWeWorkPage = ({ openCalendly }: { openCalendly: () => void }) => {
 const App: React.FC = () => {
   const openCalendly = useCalendlyWidget();
   const [selectedService, setSelectedService] = useState<Service | null>(null);
+  const [isPreModalOpen, setIsPreModalOpen] = useState(false);
   const modalContent = selectedService ? SERVICE_MODAL_CONTENT[selectedService.id] : null;
   const isHowWeWorkPage = typeof window !== 'undefined' && window.location.pathname.toLowerCase().includes('como-trabalhamos');
 
+  const handleOpenPreModal = () => setIsPreModalOpen(true);
+  const handleClosePreModal = () => setIsPreModalOpen(false);
+  const handleConfirmPreModal = () => {
+    setIsPreModalOpen(false);
+    openCalendly();
+  };
+
   if (isHowWeWorkPage) {
-    return <HowWeWorkPage openCalendly={openCalendly} />;
+    return <HowWeWorkPage openCalendly={handleOpenPreModal} />;
   }
 
   return (
     <div className="bg-black min-h-screen text-white font-sans selection:bg-zeith-metal selection:text-black">
-      <Navbar openCalendly={openCalendly} />
+      <Navbar openCalendly={handleOpenPreModal} />
       <main>
-        <Hero openCalendly={openCalendly} />
+        <Hero openCalendly={handleOpenPreModal} />
         <About />
         <Services openModal={setSelectedService} />
         <Methodology />
         <TargetAudience />
-        <Contact openCalendly={openCalendly} />
+        <Contact openCalendly={handleOpenPreModal} />
       </main>
       <Footer />
       
@@ -561,7 +569,7 @@ const App: React.FC = () => {
             <div className="pt-2">
               <Button fullWidth onClick={() => {
                 setSelectedService(null);
-                openCalendly();
+                setIsPreModalOpen(true);
               }}>
                 {modalContent.ctaLabel}
               </Button>
@@ -581,14 +589,59 @@ const App: React.FC = () => {
             <div className="pt-2">
               <Button fullWidth onClick={() => {
                 setSelectedService(null);
-                openCalendly();
+                setIsPreModalOpen(true);
               }}>
                 Solicitar Proposta
               </Button>
             </div>
           </div>
-        )}
+      )}
       </Modal>
+
+      {isPreModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+          <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" onClick={handleClosePreModal} />
+          <div className="relative z-10 w-full max-w-xl bg-zeith-gray border border-white/10 p-8 space-y-6 shadow-2xl">
+            <div className="flex justify-between items-start gap-6">
+              <div className="space-y-3">
+                <p className="text-sm uppercase tracking-[0.3em] text-zeith-metal">Diagnóstico Estratégico · 30 min</p>
+                <h3 className="text-2xl md:text-3xl font-bold text-white leading-tight">
+                  Leia o negócio antes de executar.
+                </h3>
+                <p className="text-gray-300 text-base md:text-lg leading-relaxed">
+                  Em 30 minutos, alinhamos contexto, prioridades e a rota mais curta. É o filtro que evita desperdício e acelera decisões com critério.
+                </p>
+              </div>
+              <button
+                onClick={handleClosePreModal}
+                className="text-gray-500 hover:text-white transition-colors"
+                aria-label="Fechar"
+              >
+                <X size={20} />
+              </button>
+            </div>
+            <div className="grid md:grid-cols-3 gap-4 text-sm text-gray-200">
+              {[
+                'Leitura do cenário (nicho, oferta, funil).',
+                'Priorização das alavancas de crescimento.',
+                'Plano inicial e próximos passos claros.'
+              ].map((item, idx) => (
+                <div key={idx} className="border border-white/10 bg-black/40 p-3 leading-relaxed">
+                  {item}
+                </div>
+              ))}
+            </div>
+            <div className="flex flex-col md:flex-row gap-3">
+              <Button fullWidth className="!py-4" onClick={handleConfirmPreModal}>
+                Acessar Agenda Estratégica
+              </Button>
+              <Button fullWidth variant="outline" className="!py-4" onClick={handleClosePreModal}>
+                Fechar
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
 
       <GeminiChat />
     </div>
