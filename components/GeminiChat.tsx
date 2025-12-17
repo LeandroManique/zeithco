@@ -71,7 +71,7 @@ const GeminiChat: React.FC = () => {
             className="fixed inset-0 z-40 bg-black/70 backdrop-blur-sm md:hidden"
             onClick={() => setIsOpen(false)}
           />
-          <div className="fixed inset-0 md:inset-auto md:bottom-24 md:right-6 w-full h-full md:w-96 md:h-[480px] z-50 bg-black border border-white/10 flex flex-col shadow-2xl">
+          <div className="fixed inset-0 md:inset-auto md:bottom-24 md:right-6 w-full h-[100dvh] md:w-96 md:h-[520px] z-50 bg-black border border-white/10 md:rounded-lg flex flex-col shadow-2xl overflow-hidden">
             {/* Header */}
             <div className="p-4 border-b border-white/10 bg-zeith-gray flex items-center justify-between gap-2">
               <div className="flex items-center gap-2">
@@ -88,7 +88,7 @@ const GeminiChat: React.FC = () => {
             </div>
 
             {/* Messages */}
-            <div className="flex-1 overflow-y-auto p-4 space-y-4 text-sm md:text-xs">
+            <div className="flex-1 overflow-y-auto px-4 py-3 space-y-4 text-base md:text-sm">
               {messages.map((msg, idx) => (
                 <div 
                   key={idx} 
@@ -115,14 +115,17 @@ const GeminiChat: React.FC = () => {
             </div>
 
             {/* Input */}
-            <div className="p-3 border-t border-white/10 bg-black flex gap-2">
+            <div
+              className="p-3 border-t border-white/10 bg-black flex gap-2"
+              style={{ paddingBottom: 'calc(12px + env(safe-area-inset-bottom, 0px))' }}
+            >
               <input
                 type="text"
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={handleKeyPress}
                 placeholder="Pergunte sobre estratégia, IA ou agenda."
-                className="flex-1 bg-transparent border-none outline-none text-white text-sm md:text-xs placeholder-gray-600 focus:ring-0"
+                className="flex-1 bg-transparent border-none outline-none text-white text-base md:text-sm placeholder-gray-600 focus:ring-0"
               />
               <button 
                 onClick={handleSend}
