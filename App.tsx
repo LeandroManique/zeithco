@@ -415,7 +415,7 @@ const HowWeWorkPage = ({ openCalendly }: { openCalendly: () => void }) => {
   };
 
   const goContact = () => {
-    window.location.href = '/#contact';
+    openCalendly();
   };
 
   return (
@@ -649,4 +649,3 @@ const App: React.FC = () => {
 };
 
 export default App;
-
