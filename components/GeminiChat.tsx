@@ -36,7 +36,13 @@ const GeminiChat: React.FC = () => {
 
     const responseText = await sendMessageToGemini(input);
     const aiMsg: ChatMessage = { role: 'model', text: responseText, timestamp: new Date() };
-    setMessages(prev => [...prev, aiMsg]);
+    setMessages(prev => {
+      const lastModel = [...prev].reverse().find(m => m.role === 'model');
+      if (lastModel && lastModel.text === aiMsg.text) {
+        return prev;
+      }
+      return [...prev, aiMsg];
+    });
     setIsLoading(false);
   };
 
