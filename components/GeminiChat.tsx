@@ -56,67 +56,84 @@ const GeminiChat: React.FC = () => {
         </button>
       </div>
 
-      {/* Chat Window */}
+      {/* Chat Window & Backdrop */}
       {isOpen && (
-        <div className="fixed bottom-24 right-6 w-80 md:w-96 h-[400px] z-40 bg-black border border-white/10 flex flex-col shadow-2xl">
-          {/* Header */}
-          <div className="p-3 border-b border-white/10 bg-zeith-gray flex items-center gap-2">
-            <div className="w-2 h-2 rounded-full bg-zeith-metal animate-pulse"></div>
-            <span className="text-xs uppercase tracking-wider text-gray-300">Zeith Intelligence</span>
-          </div>
-
-          {/* Messages */}
-          <div className="flex-1 overflow-y-auto p-4 space-y-4 font-mono text-xs">
-            {messages.map((msg, idx) => (
-              <div 
-                key={idx} 
-                className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
+        <>
+          <div
+            className="fixed inset-0 z-40 bg-black/70 backdrop-blur-sm md:hidden"
+            onClick={() => setIsOpen(false)}
+          />
+          <div className="fixed inset-0 md:inset-auto md:bottom-24 md:right-6 w-full h-full md:w-96 md:h-[480px] z-50 bg-black border border-white/10 flex flex-col shadow-2xl">
+            {/* Header */}
+            <div className="p-4 border-b border-white/10 bg-zeith-gray flex items-center justify-between gap-2">
+              <div className="flex items-center gap-2">
+                <div className="w-2 h-2 rounded-full bg-zeith-metal animate-pulse"></div>
+                <span className="text-xs uppercase tracking-wider text-gray-300">Otto · ZEITH Intelligence</span>
+              </div>
+              <button
+                onClick={() => setIsOpen(false)}
+                className="text-gray-400 hover:text-white transition-colors"
               >
-                <div 
-                  className={`
-                    max-w-[85%] p-3 border
-                    ${msg.role === 'user' 
-                      ? 'border-white/30 text-white' 
-                      : 'border-zeith-metal/30 text-gray-300 bg-zeith-gray/30'}
-                  `}
-                >
-                  {msg.text}
-                </div>
-              </div>
-            ))}
-            {isLoading && (
-              <div className="flex justify-start">
-                <div className="text-zeith-metal text-xs animate-pulse">Processando...</div>
-              </div>
-            )}
-            <div ref={messagesEndRef} />
-          </div>
+                <X size={16} />
+              </button>
+            </div>
 
-          {/* Input */}
-          <div className="p-3 border-t border-white/10 bg-black flex gap-2">
-            <input
-              type="text"
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              onKeyDown={handleKeyPress}
-              placeholder="Pergunte sobre estratégia, IA ou agenda."
-              className="flex-1 bg-transparent border-none outline-none text-white text-xs placeholder-gray-600 focus:ring-0"
-              autoFocus
-            />
-            <button 
-              onClick={handleSend}
-              disabled={isLoading}
-              className="text-gray-400 hover:text-zeith-metal disabled:opacity-50"
-            >
-              <Send size={16} />
-            </button>
+            {/* Messages */}
+            <div className="flex-1 overflow-y-auto p-4 space-y-4 text-sm md:text-xs">
+              {messages.map((msg, idx) => (
+                <div 
+                  key={idx} 
+                  className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
+                >
+                  <div 
+                    className={`
+                      max-w-[90%] p-3 border rounded
+                      ${msg.role === 'user' 
+                        ? 'border-white/30 text-white' 
+                        : 'border-zeith-metal/30 text-gray-200 bg-zeith-gray/30'}
+                    `}
+                  >
+                    {msg.text}
+                  </div>
+                </div>
+              ))}
+              {isLoading && (
+                <div className="flex justify-start">
+                  <div className="text-zeith-metal text-xs animate-pulse">Processando...</div>
+                </div>
+              )}
+              <div ref={messagesEndRef} />
+            </div>
+
+            {/* Input */}
+            <div className="p-3 border-t border-white/10 bg-black flex gap-2">
+              <input
+                type="text"
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                onKeyDown={handleKeyPress}
+                placeholder="Pergunte sobre estratégia, IA ou agenda."
+                className="flex-1 bg-transparent border-none outline-none text-white text-sm md:text-xs placeholder-gray-600 focus:ring-0"
+                autoFocus
+              />
+              <button 
+                onClick={handleSend}
+                disabled={isLoading}
+                className="text-gray-400 hover:text-zeith-metal disabled:opacity-50"
+              >
+                <Send size={16} />
+              </button>
+            </div>
           </div>
-        </div>
+        </>
       )}
     </>
   );
 };
 
 export default GeminiChat;
+
+
+
 
 
