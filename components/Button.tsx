@@ -10,6 +10,7 @@ const Button: React.FC<ButtonProps> = ({
   variant = 'primary', 
   fullWidth = false, 
   className = '', 
+  type = 'button',
   ...props 
 }) => {
   const baseStyles = "px-8 py-3 text-sm font-medium transition-all duration-300 tracking-wide uppercase flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed";
@@ -26,6 +27,7 @@ const Button: React.FC<ButtonProps> = ({
   return (
     <button 
       className={`${baseStyles} ${variants[variant]} ${fullWidth ? 'w-full' : ''} ${className}`}
+      type={type}
       {...props}
     >
       {children}

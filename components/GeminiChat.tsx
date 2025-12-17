@@ -20,6 +20,14 @@ const GeminiChat: React.FC = () => {
     scrollToBottom();
   }, [messages, isOpen]);
 
+  useEffect(() => {
+    if (typeof document === 'undefined') return;
+    document.body.style.overflow = isOpen ? 'hidden' : 'unset';
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [isOpen]);
+
   const handleSend = async () => {
     if (!input.trim() || isLoading) return;
 
@@ -29,7 +37,6 @@ const GeminiChat: React.FC = () => {
     setIsLoading(true);
 
     const responseText = await sendMessageToGemini(input);
-    
     const aiMsg: ChatMessage = { role: 'model', text: responseText, timestamp: new Date() };
     setMessages(prev => [...prev, aiMsg]);
     setIsLoading(false);
@@ -51,6 +58,7 @@ const GeminiChat: React.FC = () => {
               ? 'bg-zeith-black border-zeith-metal text-zeith-metal' 
               : 'bg-black border-white/20 text-white hover:border-zeith-metal hover:text-zeith-metalHover'}
           `}
+          type="button"
         >
           {isOpen ? <X size={20} /> : <Cpu size={20} />}
         </button>
@@ -73,6 +81,7 @@ const GeminiChat: React.FC = () => {
               <button
                 onClick={() => setIsOpen(false)}
                 className="text-gray-400 hover:text-white transition-colors"
+                type="button"
               >
                 <X size={16} />
               </button>
@@ -114,12 +123,12 @@ const GeminiChat: React.FC = () => {
                 onKeyDown={handleKeyPress}
                 placeholder="Pergunte sobre estratégia, IA ou agenda."
                 className="flex-1 bg-transparent border-none outline-none text-white text-sm md:text-xs placeholder-gray-600 focus:ring-0"
-                autoFocus
               />
               <button 
                 onClick={handleSend}
                 disabled={isLoading}
                 className="text-gray-400 hover:text-zeith-metal disabled:opacity-50"
+                type="button"
               >
                 <Send size={16} />
               </button>
@@ -132,8 +141,3 @@ const GeminiChat: React.FC = () => {
 };
 
 export default GeminiChat;
-
-
-
-
-
