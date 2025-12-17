@@ -18,12 +18,13 @@ const useCalendlyWidget = () => {
   }, []);
 
   return () => {
+    if (typeof window === 'undefined') return;
+    const opened = window.open(CALENDLY_URL, '_blank', 'noopener');
     // @ts-ignore Calendly injected via widget script
     if (window.Calendly) {
       // @ts-ignore
       window.Calendly.initPopupWidget({ url: CALENDLY_URL });
-    } else {
-      window.open(CALENDLY_URL, '_blank', 'noopener');
+      if (opened) opened.close();
     }
   };
 };
