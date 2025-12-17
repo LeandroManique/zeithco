@@ -22,7 +22,7 @@ CORTE: se já tem clareza para agir sozinho, encerre. Se exige desenho/decisão/
 CRITÉRIO FINAL: cada resposta deve acelerar decisão. Equilibre conversão e clareza.`;
 
 const client = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY || process.env.VITE_OPENAI_API_KEY,
+  apiKey: process.env.OPENAI_API_KEY,
 });
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
